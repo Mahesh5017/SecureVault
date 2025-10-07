@@ -43,7 +43,7 @@ export const Sidebar = () => {
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
           <Avatar>
-            <AvatarImage src="my-app\public\avatar.png" alt="Profile" />
+            <AvatarImage src="avatar.png" alt="Profile" />
             <AvatarFallback>MA</AvatarFallback>
           </Avatar>
           <span className="text-sm text-black dark:text-white">User</span>
