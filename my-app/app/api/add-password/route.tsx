@@ -38,7 +38,7 @@ export async function POST(req: Request) {
       message: "Password saved successfully!",
       data: user.savedPasswords,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error saving password:", error);
     return NextResponse.json(
       { error: "Server error while saving password." },

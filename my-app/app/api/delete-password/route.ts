@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/app/lib/db";
 import User from "@/app/models/User";
-
+import mongoose from "mongoose";
 export async function DELETE(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -21,7 +21,7 @@ export async function DELETE(req: Request) {
 
     // Filter out the password with matching _id
     user.savedPasswords = user.savedPasswords.filter(
-      (p: any) => p._id.toString() !== id
+    (p: { _id: mongoose.Types.ObjectId }) => p._id.toString() !== id
     );
     await user.save();
 

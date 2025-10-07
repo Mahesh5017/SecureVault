@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     await User.create({ email, passwordHash });
 
     return NextResponse.json({ message: "Signup successful!" });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Signup error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
