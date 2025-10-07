@@ -7,15 +7,15 @@ export async function POST(req: Request) {
   try {
     await connectDB();
 
-    const { email, title, url, password } = await req.json();
+    const { email, title, url, password, username } = await req.json();
 
     if (!email || !title || !url || !password) {
       return NextResponse.json(
-        { error: "All fields (email, title, url, password) are required." },
+        { error: "Email, title, URL, and password are required." },
         { status: 400 }
       );
     }
-    
+
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json(
@@ -25,7 +25,13 @@ export async function POST(req: Request) {
     }
 
     // Add the new password entry
-    user.savedPasswords.push({ title, url, password });
+    user.savedPasswords.push({
+      title,
+      url,
+      username: username || "",
+      password,
+    });
+
     await user.save();
 
     return NextResponse.json({

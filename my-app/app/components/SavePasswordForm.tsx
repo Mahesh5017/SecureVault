@@ -8,7 +8,7 @@ import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
 
 interface SavePasswordFormProps {
   generatedPassword: string;
-  userEmail: string; // pass logged-in user email
+  userEmail: string;
 }
 
 export default function SavePasswordForm({ generatedPassword, userEmail }: SavePasswordFormProps) {
@@ -19,7 +19,7 @@ export default function SavePasswordForm({ generatedPassword, userEmail }: SaveP
   const [loading, setLoading] = useState(false);
 
   async function handleSave() {
-    if (!title || !url || !username || !generatedPassword) {
+    if (!title || !url || !generatedPassword) {
       setMsg("Please fill in all fields and generate a password first.");
       return;
     }
@@ -33,7 +33,7 @@ export default function SavePasswordForm({ generatedPassword, userEmail }: SaveP
           email: userEmail,
           title,
           url,
-          username,
+          username:username||"",
           password: generatedPassword,
         }),
         
@@ -42,6 +42,7 @@ export default function SavePasswordForm({ generatedPassword, userEmail }: SaveP
   email: userEmail,
   title,
   url,
+  username,
   password: generatedPassword,
 });
 

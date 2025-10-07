@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Password Manager Project
 
-## Getting Started
+A simple **Password Manager** built with **Next.js**, **TypeScript**, **Tailwind CSS**, and **MongoDB**. This project allows users to **generate strong passwords**, **save them securely**, and **manage saved credentials**.  
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **User Authentication**  
+  - Signup with email and password  
+  - Login to access workspace  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Password Generator**  
+  - Generate strong, secure passwords  
+  - Customize length, symbols, numbers, and uppercase letters  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Password Management**  
+  - Save passwords with title, URL, and username/email  
+  - View saved passwords in a professional card layout  
+  - Edit or delete saved passwords  
 
-## Learn More
+- **Responsive Design**  
+  - Works on desktop and mobile  
+  - Dark and light mode support  
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Frontend:** Next.js 15.5+, React, Tailwind CSS, TypeScript  
+- **Backend:** Next.js API routes  
+- **Database:** MongoDB (Atlas or local) with Mongoose  
+- **Other:** Lucide React Icons, motion/React for card animations  
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Schema
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### User Schema
+
+```ts
+import mongoose, { Schema, model } from "mongoose";
+
+interface SavedPassword {
+  title: string;
+  url: string;
+  username?: string;
+  password: string;
+}
+
+interface UserDocument extends mongoose.Document {
+  email: string;
+  password: string;
+  savedPasswords: SavedPassword[];
+}
+
+const savedPasswordSchema = new Schema<SavedPassword>({
+  title: { type: String, required: true },
+  url: { type: String, required: true },
+  username: { type: String, default: "" },
+  password: { type: String, required: true },
+});
+
+const userSchema = new Schema<UserDocument>({
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  savedPasswords: [savedPasswordSchema],
+});
+
+const User = model<UserDocument>("User", userSchema);
+export default User;

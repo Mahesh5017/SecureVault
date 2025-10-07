@@ -22,6 +22,7 @@ export default function SignupPage() {
       });
       const data = await res.json();
       if (res.ok) {
+        localStorage.setItem("userEmail", email);
         router.push("/workspace");
       } else {
         setMsg(data.error || "Login failed!");
